@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+if(!isset($_SESSION['loggedin'])){
+    header("location: login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,12 +19,15 @@
 
 <body>
     <div class="container">
-        <h1>staff | <a href='newstaff.php'><span class='glyphicon glyphicon-user'></span></a></h1>
+    <h1 align =center ><b>บุคลากร
+</b><a href='document.php'><span class='glyphicon glyphicon-home' ></span></a></h1>
+    <h2 align =center ><b>รายชื่อบุคลากร</b> &nbsp;</h2>
+    <h3 align =center >เพิ่มรายชื่อ | <a href='newstaff.php'><span class='glyphicon glyphicon-plus' ></span></a></h3>
         <form action="#" method="post">
-            <input type="text" name="kw" placeholder="ใส่รายชื่อบุคลากร" value="">
-            <input type="submit">
+            <input type="text" name="kw" placeholder="Enter staff name" value="" size=140 >
+            <button type="submit" class="glyphicon glyphicon-search btn btn-info"></button>
         </form>
-
+    
         <?php
         require_once("dbconfig.php");
 
@@ -51,15 +61,14 @@
             
             $i = 1; 
 
-            
             while($row = $result->fetch_object()){ 
                 $table.= "<tr>";
                 $table.= "<td>" . $i++ . "</td>";
                 $table.= "<td>$row->stf_code</td>";
                 $table.= "<td>$row->stf_name</td>";
                 $table.= "<td>";
-                $table.= "<a href='editstaff.php?id=$row->id'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></a>";
-                $table.= " | ";
+                $table.= "<a href='editstaff.php?id=$row->id'><span class='glyphicon glyphicon-wrench' aria-hidden='true'></span></a>";
+                $table.= " : ";
                 $table.= "<a href='deletestaff.php?id=$row->id'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a>";
                 $table.= "</td>";
                 $table.= "</tr>";
@@ -72,6 +81,7 @@
         }
         ?>
     </div>
+    
 </body>
 
 </html>
