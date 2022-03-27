@@ -1,11 +1,3 @@
-<?php
-session_start();
-
-
-if(!isset($_SESSION['loggedin'])){
-    header("location: login.php");
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,25 +10,25 @@ if(!isset($_SESSION['loggedin'])){
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
-<body >
-    <div  class="container">
-    <h1 align =center ><b>ค้นหารายชื่อการแต่งตั้ง</b>
+<body>
+    <div align =center class="container">
+    <h1 align =right>ค้นหารายชื่อการแต่งตั้ง&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
         <a href='document.php'><span class='glyphicon glyphicon-home'></span></a></h1>
-        <form action="#" method="post">
-            <input type="text" name="kw" placeholder="Enter document name" value="" size=140 >
+        <form align =center action="#" method="post">
+            <input type="text" name="kw" placeholder="Enter document name" value="" size=140>
             <button type="submit" class="glyphicon glyphicon-search btn btn-info"></button>
         </form>
-        
+
         <?php
         require_once("dbconfig.php");
 
         @$kw = "%{$_POST['kw']}%";
 
         $sql = "SELECT DISTINCT documents.* 
-        FROM documents LEFT JOIN doc_staff ON documents.id=doc_staff.doc_id
-        LEFT JOIN staff ON doc_staff.stf_id=staff.id 
-        WHERE concat(doc_num, doc_title,stf_name) LIKE ?
-        ORDER BY doc_num;";
+FROM documents LEFT JOIN doc_staff ON documents.id=doc_staff.doc_id
+      LEFT JOIN staff ON doc_staff.stf_id=staff.id 
+WHERE concat(doc_num, doc_title,stf_name) LIKE ?
+ORDER BY doc_num;";
 
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $kw);
@@ -52,7 +44,7 @@ if(!isset($_SESSION['loggedin'])){
                             <tr>
                                 <th scope='col'>#</th>
                                 <th scope='col'>เลขที่คำสั่ง</th>
-                                <th scope='col'>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;ชื่อคำสั่ง</th>
+                                <th scope='col'>ชื่อคำสั่ง</th>
                                 <th scope='col'>วันที่เริ่มต้นคำสั่ง</th>
                                 <th scope='col'>วันที่สิ้นสุด</th>
                                 <th scope='col'>สถานะ</th>
@@ -66,12 +58,12 @@ if(!isset($_SESSION['loggedin'])){
 
             while($row = $result->fetch_object()){ 
                 $table.= "<tr>";
-                $table.= "<td align =center >" . $i++ . "</td>";
-                $table.= "<td align =center >$row->doc_num &emsp;</td>";
+                $table.= "<td>" . $i++ . "</td>";
+                $table.= "<td>$row->doc_num &emsp;</td>";
                 $table.= "<td>$row->doc_title</td>";
                 $table.= "<td>$row->doc_start_date</td>";
                 $table.= "<td>$row->doc_to_date</td>";
-                $table.= "<td >$row->doc_status</td>";
+                $table.= "<td>$row->doc_status</td>";
                 $table.= "<td><a href='uploads/$row->doc_file_name'>$row->doc_file_name</a></td>";
                 $table.= "</tr>";
             }
